@@ -24,11 +24,11 @@ pipeline {
 
         stage('docker') {
             steps {
-                withCredentials([string(credentialsId: 'dockerpass', variable: 'DP')]) {
+                withCredentials([usernamePassword(credentialsId: 'dockerpass', passwordVariable: 'PASS', usernameVariable: 'USR')]) {
                      sh "docker build -t ${APPLICATION}:${BUILD_NUMBER} ${WORKSPACE}/. "
-                     sh "docker tag ${APPLICATION}:${BUILD_NUMBER} ${USER}/${APPLICATION}:${VERSION}" 
-                     sh "docker login -u ${USER} - p ${DP}" 
-                     sh "docker push ${USER}/${APPLICATION}:${VERSION}"
+                     sh "docker tag ${APPLICATION}:${BUILD_NUMBER} ${USR}/${APPLICATION}:${VERSION}" 
+                     sh "docker login -u ${USR} - p ${PASS}" 
+                     sh "docker push ${USR}/${APPLICATION}:${VERSION}"
                  } 
             }
         }
