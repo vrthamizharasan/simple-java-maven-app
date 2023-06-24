@@ -25,7 +25,7 @@ pipeline {
         stage('docker') {
             steps {
                 withCredentials([string(credentialsId: 'dockerpass', variable: 'DP')]) {
-                     sh "docker build -t ${APPLICATION}:${BUILDNUMBER} . "
+                     sh "docker build -t ${APPLICATION}:${BUILDNUMBER} ${WORKSPACE}/. "
                      sh "docker tag ${APPLICATION}:${BUILDNUMBER} ${USER}/${APPLICATION}:${VERSION}" 
                      sh "docker login -u ${USER} - p ${DP}" 
                      sh "docker push ${USER}/${APPLICATION}:${VERSION}"
